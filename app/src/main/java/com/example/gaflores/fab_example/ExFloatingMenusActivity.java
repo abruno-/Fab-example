@@ -30,6 +30,8 @@ public class ExFloatingMenusActivity extends AppCompatActivity {
     private List<FloatingActionMenu> menus = new ArrayList<>();
     private Handler mUiHandler = new Handler();
 
+    private boolean disableClick = false; // truco para desactivar el
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +52,7 @@ public class ExFloatingMenusActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (disableClick) return;
                 Toast.makeText(view.getContext(), Integer.toString(position), Toast.LENGTH_SHORT).show();
             }
         });
@@ -87,6 +90,7 @@ public class ExFloatingMenusActivity extends AppCompatActivity {
         findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (disableClick) return;
                 Toast.makeText(v.getContext(), "Button clicked!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -96,8 +100,10 @@ public class ExFloatingMenusActivity extends AppCompatActivity {
             @Override
             public void onMenuToggle(boolean opened) {
                 if (opened) {
+                    disableClick = true;
                     Toast.makeText(getApplicationContext(), "Open", Toast.LENGTH_SHORT).show();
                 } else {
+                    disableClick = false;
                     Toast.makeText(getApplicationContext(), "Close", Toast.LENGTH_SHORT).show();
                 }
             }
